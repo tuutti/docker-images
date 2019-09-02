@@ -4,10 +4,10 @@ FROM php:${BASE_IMAGE_TAG}
 RUN apt-get update
 
 # Install PHP and composer dependencies
-RUN apt-get install git zip libpng-dev mysql-client -yqq
+RUN apt-get install git libzip-dev zip libpng-dev mysql-client -yqq
 
 # Install needed extensions
-RUN docker-php-ext-install gd pdo_mysql zip
+RUN docker-php-ext-install gd pdo_mysql zip bcmath
 
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
