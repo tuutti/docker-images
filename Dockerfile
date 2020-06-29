@@ -11,4 +11,4 @@ RUN docker-php-ext-install gd pdo_mysql zip bcmath
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install drush
-RUN composer global require "drush/drush:9.0.*"
+RUN composer global require "drush/drush:10.0.*"
