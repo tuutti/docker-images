@@ -1,4 +1,4 @@
-PHP_VER ?= 7.3
+PHP_VER ?= 7.4
 REPOSITORY = registry.gitlab.com/tuutti/drupal-php-docker
 BASE_IMAGE_TAG = $(PHP_VER)
 

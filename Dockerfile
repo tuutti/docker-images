@@ -2,7 +2,7 @@ ARG BASE_IMAGE_TAG
 FROM php:${BASE_IMAGE_TAG}
 
 # Install PHP and composer dependencies
-RUN apt-get update && apt-get install git libzip-dev zip libpng-dev mysql-client -yqq
+RUN apt-get update && apt-get install git libzip-dev zip libpng-dev mariadb-client -yqq
 
 # Install needed extensions
 RUN docker-php-ext-install gd pdo_mysql zip bcmath
