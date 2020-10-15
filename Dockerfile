@@ -1,5 +1,6 @@
 ARG BASE_IMAGE_TAG
 FROM php:${BASE_IMAGE_TAG}
+ARG DRUSH
 
 # Install PHP and composer dependencies
 RUN apt-get update -yqq && apt-get install git libzip-dev zip libpng-dev mariadb-client chromium-driver -yqq
@@ -11,4 +12,6 @@ RUN docker-php-ext-install gd pdo_mysql zip bcmath
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install drush
-RUN composer global require "drush/drush:10.*"
+RUN composer global require "drush/drush:${DRUSH}.*"
+
+ENV PATH "$PATH:$HOME/.composer/vendor/bin"

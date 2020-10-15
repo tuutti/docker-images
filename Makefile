@@ -1,9 +1,10 @@
-PHP_VER ?= 7.4
+PHP_VERSION ?= 7.4
+DRUSH ?= 10
 REPOSITORY = registry.gitlab.com/tuutti/drupal-php-docker
-BASE_IMAGE_TAG = $(PHP_VER)
+BASE_IMAGE_TAG = $(PHP_VERSION)
 
 ifeq ($(TAG),)
-	TAG = $(PHP_VER)
+	TAG = $(PHP_VERSION)
 endif
 
 .PHONY: build push release
@@ -11,7 +12,7 @@ endif
 default: build
 
 build:
-	docker build -t $(REPOSITORY):$(TAG) --build-arg BASE_IMAGE_TAG=$(TAG) ./
+	docker build -t $(REPOSITORY):$(TAG) --build-arg DRUSH=$(DRUSH) --build-arg BASE_IMAGE_TAG=$(TAG) ./
 
 push:
 	docker push $(REPOSITORY):$(TAG)
