@@ -14,4 +14,4 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php -- --inst
 # Install drush
 RUN composer global require "drush/drush:${DRUSH}.*"
 
-ENV PATH "$PATH:$HOME/.composer/vendor/bin"
+ENV PATH "$PATH:/root/.composer/vendor/bin"
