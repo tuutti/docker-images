@@ -1,6 +1,6 @@
 PHP_VERSION ?= 7.4
 DRUSH ?= 10
-REPOSITORY = registry.gitlab.com/tuutti/drupal-php-docker
+REPOSITORY = ghcr.io/tuutti/drupal-php-docker
 BASE_IMAGE_TAG = $(PHP_VERSION)
 
 ifeq ($(TAG),)
