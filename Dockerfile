@@ -15,4 +15,5 @@ RUN composer self-update --2
 # Install drush
 RUN composer global require "drush/drush:${DRUSH}.*"
 
-ENV PATH "$PATH:/root/.composer/vendor/bin"
+ENV PATH "$PATH:/root/.config/composer/vendor/bin"
+
