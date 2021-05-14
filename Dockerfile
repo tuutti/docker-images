@@ -8,6 +8,9 @@ RUN apt-get update -yqq && apt-get install git libzip-dev zip libpng-dev mariadb
 # Install needed extensions
 RUN docker-php-ext-install gd pdo_mysql zip bcmath
 
+RUN docker-php-ext-configure opcache --enable-opcache \
+    && docker-php-ext-install opcache
+
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer self-update --2
