@@ -1,7 +1,7 @@
-PHP_VERSION ?= 7.4
+PHP_VERSION ?= 8.0
 DRUSH ?= 10
 REPOSITORY = ghcr.io/tuutti/drupal-php-docker
-BASE_IMAGE_TAG = $(PHP_VERSION)
+BASE_IMAGE_TAG = $(PHP_VERSION)-alpine3.15
 
 ifeq ($(TAG),)
 	TAG = $(PHP_VERSION)
@@ -12,7 +12,7 @@ endif
 default: build
 
 build:
-	docker build -t $(REPOSITORY):$(TAG) --build-arg DRUSH=$(DRUSH) --build-arg BASE_IMAGE_TAG=$(TAG) ./
+	docker build -t $(REPOSITORY):$(TAG) --build-arg DRUSH=$(DRUSH) --build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) ./
 
 push:
 	docker push $(REPOSITORY):$(TAG)

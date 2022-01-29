@@ -20,7 +20,6 @@ Contains Docker images for testing Drupal.
 
 ## PHP libraries
 
-- drush 9.x (PHP 7.1-7.3), 10.x (PHP 7.4)
 - composer 2
 
 ## Development
