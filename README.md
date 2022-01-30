@@ -4,7 +4,7 @@ Contains Docker images for testing Drupal in CI environments.
 
 See ci/drupal/Dockerfile.
 
-Available PHP versions: 8.1, 8.0, 7.4:
+Available PHP versions: `8.1`, `8.0`, `7.4`:
 
 - `ghcr.io/tuutti/drupal-php-docker:8.1`
 - `ghcr.io/tuutti/drupal-php-docker:8.0`
@@ -16,6 +16,7 @@ All images include packages necessary to run all Drupal tests (including Functio
 
 Build:
 - `make build TAG=8.1 PHP_VERSION=8.1`
+
 Push:
 - `make push TAG=8.1 PHP_VERSION=8.1`
 
