@@ -1,12 +1,13 @@
 # Drupal CI docker image
 
-## Development
 
-Build:
-- `make build TAG=8.1 PHP_VERSION=8.1`
+Available PHP versions: `8.1`, `8.0`, `7.4`:
 
-Push:
-- `make push TAG=8.1 PHP_VERSION=8.1`
+- `ghcr.io/tuutti/drupal-php-docker:8.1`
+- `ghcr.io/tuutti/drupal-php-docker:8.0`
+- `ghcr.io/tuutti/drupal-php-docker:7.4` (deprecated, left for legacy reasons)
+
+All images include packages necessary to run all Drupal tests (including FunctionalJavascript tests using chromium-driver).
 
 ## Development
 
@@ -17,25 +18,25 @@ Push:
 - `make push TAG=8.1 PHP_VERSION=8.1`
 
 ## Included packages
-- git
-- sqlite
-- make
-- bash
-- jq
-- mariadb-client
-- chromium-driver
+- `git`
+- `sqlite`
+- `make`
+- `bash`
+- `jq`
+- `mariadb-client`
+- `chromium-driver`
 
 ## PHP extensions
 
-- php-gd
-- php-pdo_mysql
-- pphp-pdo_sqlite
-- php-zip
-- opcache
-- php-bcmath
-- php-apcu
+- `php-gd`
+- `php-pdo_mysql`
+- `php-pdo_sqlite`
+- `php-zip`
+- `opcache`
+- `php-bcmath`
+- `php-apcu`
 
 ## PHP libraries
 
-- composer 2.2
-- drush launcher
+- `composer` 2.2
+- `drush launcher` 0.10.0

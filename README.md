@@ -4,14 +4,4 @@
 
 Contains Docker images for testing Drupal in CI environments.
 
-See ci/drupal/Dockerfile.
-
-Available PHP versions: `8.1`, `8.0`, `7.4`:
-
-- `ghcr.io/tuutti/drupal-php-docker:8.1`
-- `ghcr.io/tuutti/drupal-php-docker:8.0`
-- `ghcr.io/tuutti/drupal-php-docker:7.4` (deprecated, left for legacy reasons)
-
-All images include packages necessary to run all Drupal tests (including FunctionalJavascript tests using chromium-driver).
-
 See [drupal/ci/README.md](drupal/ci/README.md) for more details.
