@@ -10,5 +10,5 @@ See [drupal/ci/README.md](drupal/ci/README.md) for more details.
 
 Node based `openapi-generator` image. Uses [@openapitools/openapi-generator-cli](https://www.npmjs.com/package/@openapitools/openapi-generator-cli) NPM package.
 
-See [openapi-generator](README.md).
+See [openapi-generator/README.md](openapi-generator/README.md).
 
