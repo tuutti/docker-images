@@ -1,6 +1,21 @@
 ARG BASE_IMAGE_TAG
 FROM php:${BASE_IMAGE_TAG} as base
 
+# Install required tools
+RUN apk add --no-cache \
+    sqlite \
+    sqlite-dev \
+    git \
+    patch \
+    mariadb-client \
+    chromium \
+    chromium-chromedriver \
+    # druidfi/tools has dependency to make and
+    # 'make cast-spell' has dependency to bash
+    make \
+    bash \
+    jq
+
 # install the PHP extensions we need
 RUN set -eux; \
 	\
@@ -13,7 +28,6 @@ RUN set -eux; \
     autoconf \
     g++ \
     libtool \
-    make \
 	; \
 	\
   pecl install apcu; \
@@ -30,6 +44,7 @@ RUN set -eux; \
 		opcache \
 		pdo_mysql \
 		zip \
+    pdo_sqlite \
 	; \
 	\
 	runDeps="$( \
@@ -75,19 +90,6 @@ RUN \
   chmod +x /usr/bin/gh; \
   rm -rf gh_2.2.0_linux_amd64/; \
   rm gh.tar.gz
-
-# Install required tools
-RUN apk add --no-cache \
-    git \
-    patch \
-    mariadb-client \
-    chromium \
-    chromium-chromedriver \
-    # druidfi/tools has dependency to make and
-    # 'make cast-spell' has dependency to bash
-    make \
-    bash \
-    jq
 
 # Install Composer
 COPY --from=composer:2.2 /usr/bin/composer /usr/local/bin/

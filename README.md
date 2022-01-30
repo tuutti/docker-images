@@ -1,33 +1,46 @@
-# drupal-php-docker
+# General use Docker images for various projects
 
-Contains Docker images for testing Drupal.
+## Drupal CI docker image
 
-## Included packages
+Contains Docker images for testing Drupal in CI environments.
 
+See ci/drupal/Dockerfile.
+
+Available PHP versions: 8.1, 8.0, 7.4:
+
+ghcr.io/tuutti/drupal-php-docker:8.1
+ghcr.io/tuutti/drupal-php-docker:8.0
+ghcr.io/tuutti/drupal-php-docker:7.4 (deprecated, left for legacy reasons)
+
+All containers include packages necessary to run all Drupal tests (including FunctionalJavascript tests using chromium-driver).
+
+### Development
+
+Build:
+- `make build TAG=8.1 PHP_VERSION=8.1`
+Push:
+- `make push TAG=8.1 PHP_VERSION=8.1`
+
+### Included packages
 - git
-- libzip-dev
-- zip
-- libpng-dev
+- sqlite
+- make
+- bash
+- jq
 - mariadb-client
 - chromium-driver
 
-## PHP extensions
+### PHP extensions
 
 - php-gd
-- php-pdo
+- php-pdo_mysql
+- pphp-pdo_sqlite
 - php-zip
+- opcache
 - php-bcmath
+- php-apcu
 
-## PHP libraries
+### PHP libraries
 
-- composer 2
-
-## Development
-
-### Building
-
-- `make build TAG=7.4`
-
-### Pushing
-
-- `make push TAG=7.4`
+- composer 2.2
+- drush launcher
