@@ -4,4 +4,4 @@ Node based `openapi-generator` image. Uses [@openapitools/openapi-generator-cli]
 
 ## Changing the openapi-generator version
 
-You can change the version either by calling `openapi-generator-cli version-manager set {version}` or by adding a `.openapi-generator/VERSION` file with the version number in it.
+You can change the version either by calling `openapi-generator-cli version-manager set {version}` or by adding a `.openapi-generator/VERSION` file to your project with the version number in it.
