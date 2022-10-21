@@ -25,6 +25,7 @@ Push:
 - `jq`
 - `mariadb-client`
 - `chromium-driver`
+- `Github cli tool`
 
 ## PHP extensions
 

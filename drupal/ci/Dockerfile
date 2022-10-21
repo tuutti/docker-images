@@ -14,7 +14,9 @@ RUN apk add --no-cache \
     # 'make cast-spell' has dependency to bash
     make \
     bash \
-    jq
+    jq \
+    gnupg \
+    coreutils
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -30,18 +32,20 @@ RUN set -eux; \
     libtool \
 	; \
 	\
-  pecl install apcu; \
+  pecl install apcu pcov; \
   \
 	docker-php-ext-configure gd \
 		--with-freetype \
 		--with-jpeg=/usr/include \
 	; \
 	\
-  docker-php-ext-enable apcu.so; \
+  docker-php-ext-enable apcu.so pcov.so; \
   \
 	docker-php-ext-install -j "$(nproc)" \
+    sockets \
 		gd \
 		opcache \
+    bcmath \
 		pdo_mysql \
 		zip \
     pdo_sqlite \
@@ -81,20 +85,20 @@ RUN { \
 		echo 'post_max_size=32M'; \
 	} > /usr/local/etc/php/conf.d/php-overrides.ini
 
-ENV GH_SHA256SUM 76bd37160c61cf668b96a362ebc01d23736ebf94ec9dfe3090cacea37fd3b3fb
+ENV GH_SHA256SUM 3db79714805262011b2dd65235ed602c0f931248297b0e5f2b25fcf88a1a2757
 RUN \
-  curl -fSL -o gh.tar.gz "https://github.com/cli/cli/releases/download/v2.2.0/gh_2.2.0_linux_amd64.tar.gz"; \
+  curl -fSL -o gh.tar.gz "https://github.com/cli/cli/releases/download/v2.8.0/gh_2.8.0_linux_amd64.tar.gz"; \
   echo "$GH_SHA256SUM *gh.tar.gz" | sha256sum -c - ; \
   tar -zxvf gh.tar.gz; \
-  mv gh_2.2.0_linux_amd64/bin/gh /usr/bin/gh; \
+  mv gh_2.8.0_linux_amd64/bin/gh /usr/bin/gh; \
   chmod +x /usr/bin/gh; \
-  rm -rf gh_2.2.0_linux_amd64/; \
+  rm -rf gh_2.8.0_linux_amd64/; \
   rm gh.tar.gz
 
 # Install Composer
-COPY --from=composer:2.2 /usr/bin/composer /usr/local/bin/
+COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/
 
-ENV COMPOSER_HOME=/.composer
+ENV COMPOSER_HOME=/tmp/.composer
 
 # Install drush launcher
 ENV DRUSH_LAUNCHER_SHA256SUM=d466e4268dcb2f3465feeb01518d2770c4be8ca533e010b678799bbd14dd90c5
@@ -104,3 +108,15 @@ RUN \
   echo "${DRUSH_LAUNCHER_SHA256SUM} *drush" | sha256sum -c - && \
   chmod +x drush && \
   mv drush /usr/local/bin
+
+RUN curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import; \
+  curl -Os https://uploader.codecov.io/latest/alpine/codecov; \
+  curl -Os https://uploader.codecov.io/latest/alpine/codecov.SHA256SUM; \
+  curl -Os https://uploader.codecov.io/latest/alpine/codecov.SHA256SUM.sig; \
+  gpgv codecov.SHA256SUM.sig codecov.SHA256SUM; \
+  sha256sum -c codecov.SHA256SUM; \
+  rm codecov.*; \
+  chmod +x codecov; \
+  mv codecov /usr/bin/;
+
+USER 1001
