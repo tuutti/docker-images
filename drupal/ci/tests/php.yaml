@@ -1,0 +1,59 @@
+schemaVersion: '2.0.0'
+commandTests:
+  - name: 'Composer is installed'
+    command: composer
+    args: ['--version']
+    expectedOutput: ['Composer version*']
+  - name: 'PHP extensions'
+    command: bash
+    args:
+      - -c
+      - |
+        php -m | grep -e apcu -e bcmath -e gd -e pcov -e sqlite3 -e curl -e "Zend OPcache" -e zip -e sockets -e pdo
+    expectedOutput: ["apcu\nbcmath\ncurl\ngd\npcov\npdo_mysql\npdo_sqlite\nsockets\nsqlite3\nZend OPcache\nzip\nZend OPcache"]
+  - name: 'Git is installed'
+    command: which
+    args: ['git']
+  - name: 'Patch is installed'
+    command: which
+    args: ['patch']
+  - name: 'MariaDB client is installed'
+    command: which
+    args: ['mysql']
+  - name: 'Chromium is installed'
+    command: which
+    args: ['chromium-browser']
+  - name: 'Chromedriver is installed'
+    command: which
+    args: ['chromedriver']
+  - name: 'Bash is installed'
+    command: which
+    args: ['bash']
+  - name: 'JQ is installed'
+    command: which
+    args: ['jq']
+  - name: 'gpg is installed'
+    command: which
+    args: ['gpg']
+  - name: 'make is installed'
+    command: which
+    args: ['make']
+  - name: 'sqlite is installed'
+    command: which
+    args: ['sqlite3']
+  - name: 'drush is installed'
+    command: which
+    args: ['drush']
+  - name: 'codecov is installed'
+    command: codecov
+    args: ['--version']
+  - name: 'Github cli is installed'
+    command: gh
+    args: ['--version']
+
+metadataTest:
+  env:
+    - key: 'COMPOSER_HOME'
+      value: '/tmp/.composer'
+    - key: 'BOX_REQUIREMENT_CHECKER'
+      value: '0'

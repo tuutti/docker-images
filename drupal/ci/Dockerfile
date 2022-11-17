@@ -96,7 +96,7 @@ RUN \
   rm gh.tar.gz
 
 # Install Composer
-COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/
+COPY --from=composer:2.4 /usr/bin/composer /usr/local/bin/
 
 ENV COMPOSER_HOME=/tmp/.composer
 
