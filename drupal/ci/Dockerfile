@@ -28,6 +28,8 @@ RUN set -eux; \
 		libpng-dev \
 		libzip-dev \
     autoconf \
+    # php sockets package require linux-headers
+    linux-headers \
     g++ \
     libtool \
 	; \
@@ -85,18 +87,18 @@ RUN { \
 		echo 'post_max_size=32M'; \
 	} > /usr/local/etc/php/conf.d/php-overrides.ini
 
-ENV GH_SHA256SUM 3db79714805262011b2dd65235ed602c0f931248297b0e5f2b25fcf88a1a2757
+ENV GH_SHA256SUM 6b3e56ee3253795d9c48e019cfd7b8dfc03b28073a411d1f527f5021764f63cb
 RUN \
-  curl -fSL -o gh.tar.gz "https://github.com/cli/cli/releases/download/v2.8.0/gh_2.8.0_linux_amd64.tar.gz"; \
+  curl -fSL -o gh.tar.gz "https://github.com/cli/cli/releases/download/v2.21.2/gh_2.21.2_linux_amd64.tar.gz"; \
   echo "$GH_SHA256SUM *gh.tar.gz" | sha256sum -c - ; \
   tar -zxvf gh.tar.gz; \
-  mv gh_2.8.0_linux_amd64/bin/gh /usr/bin/gh; \
+  mv gh_*/bin/gh /usr/bin/gh; \
   chmod +x /usr/bin/gh; \
-  rm -rf gh_2.8.0_linux_amd64/; \
+  rm -rf gh_*/; \
   rm gh.tar.gz
 
 # Install Composer
-COPY --from=composer:2.4 /usr/bin/composer /usr/local/bin/
+COPY --from=composer:2.5 /usr/bin/composer /usr/local/bin/
 
 ENV COMPOSER_HOME=/tmp/.composer
 

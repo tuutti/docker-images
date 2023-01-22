@@ -1,8 +1,9 @@
 # Drupal CI docker image
 
 
-Available PHP versions: `8.1`, `8.0`, `7.4`:
+Available PHP versions: `8.2`, `8.1`, `8.0`, `7.4`:
 
+- `ghcr.io/tuutti/drupal-php-docker:8.2`
 - `ghcr.io/tuutti/drupal-php-docker:8.1`
 - `ghcr.io/tuutti/drupal-php-docker:8.0`
 - `ghcr.io/tuutti/drupal-php-docker:7.4` (deprecated, left for legacy reasons)
