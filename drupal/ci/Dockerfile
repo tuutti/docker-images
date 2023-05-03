@@ -28,7 +28,6 @@ RUN set -eux; \
 		libpng-dev \
 		libzip-dev \
     autoconf \
-    # php sockets package require linux-headers
     linux-headers \
     g++ \
     libtool \
@@ -65,7 +64,7 @@ RUN set -eux; \
     /usr/local/bin/php-cgi
 
 # We can't remove files from base layer (php container) so we have to copy everything
-# into a new layer to not to waste space.
+# into a new layer to not waste space.
 FROM scratch
 COPY --from=base / /
 
@@ -87,26 +86,21 @@ RUN { \
 		echo 'post_max_size=32M'; \
 	} > /usr/local/etc/php/conf.d/php-overrides.ini
 
-ENV GH_SHA256SUM 6b3e56ee3253795d9c48e019cfd7b8dfc03b28073a411d1f527f5021764f63cb
-RUN \
-  curl -fSL -o gh.tar.gz "https://github.com/cli/cli/releases/download/v2.21.2/gh_2.21.2_linux_amd64.tar.gz"; \
-  echo "$GH_SHA256SUM *gh.tar.gz" | sha256sum -c - ; \
-  tar -zxvf gh.tar.gz; \
-  mv gh_*/bin/gh /usr/bin/gh; \
-  chmod +x /usr/bin/gh; \
-  rm -rf gh_*/; \
-  rm gh.tar.gz
+RUN apk add --no-cache \
+  --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
+  github-cli
 
 # Install Composer
 COPY --from=composer:2.5 /usr/bin/composer /usr/local/bin/
 
 ENV COMPOSER_HOME=/tmp/.composer
 
+# This environment variable is used by drush pm:security command.
+ENV DRUSH_SECURITY_ADVISORIES_URL=https://raw.githubusercontent.com/tuutti/drupal-security-advisories/9.x/composer.json
 # Install drush launcher
-ENV DRUSH_LAUNCHER_SHA256SUM=d466e4268dcb2f3465feeb01518d2770c4be8ca533e010b678799bbd14dd90c5
-ENV BOX_REQUIREMENT_CHECKER=0
+ENV DRUSH_LAUNCHER_SHA256SUM=0ae18cd3f8745fdd58ab852481b89428b57be6523edf4d841ebef198c40271be
 RUN \
-  curl -fSL -o drush "https://github.com/drush-ops/drush-launcher/releases/download/0.10.0/drush.phar" && \
+  curl -fSL -o drush "https://github.com/drush-ops/drush-launcher/releases/download/0.10.2/drush.phar" && \
   echo "${DRUSH_LAUNCHER_SHA256SUM} *drush" | sha256sum -c - && \
   chmod +x drush && \
   mv drush /usr/local/bin

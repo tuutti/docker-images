@@ -52,8 +52,8 @@ commandTests:
     args: ['--version']
 
 metadataTest:
-  env:
+  envVars:
     - key: 'COMPOSER_HOME'
       value: '/tmp/.composer'
-    - key: 'BOX_REQUIREMENT_CHECKER'
-      value: '0'
+    - key: 'DRUSH_SECURITY_ADVISORIES_URL'
+      value: 'https://raw.githubusercontent.com/tuutti/drupal-security-advisories/9.x/composer.json'
