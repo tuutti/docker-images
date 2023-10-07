@@ -20,12 +20,6 @@ commandTests:
   - name: 'MariaDB client is installed'
     command: which
     args: ['mysql']
-  - name: 'Chromium is installed'
-    command: which
-    args: ['chromium-browser']
-  - name: 'Chromedriver is installed'
-    command: which
-    args: ['chromedriver']
   - name: 'Bash is installed'
     command: which
     args: ['bash']
@@ -41,9 +35,6 @@ commandTests:
   - name: 'sqlite is installed'
     command: which
     args: ['sqlite3']
-  - name: 'drush is installed'
-    command: which
-    args: ['drush']
   - name: 'codecov is installed'
     command: codecov
     args: ['--version']
@@ -57,3 +48,11 @@ metadataTest:
       value: '/tmp/.composer'
     - key: 'DRUSH_SECURITY_ADVISORIES_URL'
       value: 'https://raw.githubusercontent.com/tuutti/drupal-security-advisories/9.x/composer.json'
+    - key: 'SIMPLETEST_DB'
+      value: 'mysql://drupal:drupal@db:3306/drupal'
+    - key: 'SIMPLETEST_BASE_URL'
+      value: 'http://127.0.0.1:8888'
+    - key: 'COMPOSER_MIRROR_PATH_REPOS'
+      value: '1'
+    - key: 'COMPOSER_DISCARD_CHANGES'
+      value: 'true'

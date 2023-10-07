@@ -1,14 +1,17 @@
-# Drupal CI docker image
+# Drupal CI image
 
-
-Available PHP versions: `8.2`, `8.1`, `8.0`, `7.4`:
+Available PHP versions: `8.2`, `8.1`:
 
 - `ghcr.io/tuutti/drupal-php-docker:8.2`
 - `ghcr.io/tuutti/drupal-php-docker:8.1`
-- `ghcr.io/tuutti/drupal-php-docker:8.0`
-- `ghcr.io/tuutti/drupal-php-docker:7.4` (deprecated, left for legacy reasons)
 
-All images include packages necessary to run all Drupal tests (including FunctionalJavascript tests using chromium-driver).
+## Environment variables
+
+- `SIMPLETEST_DB=mysql://drupal:drupal@db:3306/drupal`
+- `SIMPLETEST_BASE_URL=http://127.0.0.1:8888`
+- `COMPOSER_HOME=/tmp/.composer`: The composer home is overridden to mitigate permission issues
+- `DRUSH_SECURITY_ADVISORIES_URL`: This is used by `drush pm:security` command to scan project for security updates
+- `COMPOSER_MIRROR_PATH_REPOS=1`: Individual module tests use `composer config repositories N $GITHUB_WORKSPACE && composer require drupal/$MODULE_NAME` to symlink module's codebase from $GITHUB_WORKSPACE to modules/contrib folder. PHPUnit seems to report an incorrect test coverage if the test folder is a symlink. This setting changes composer to mirror the content instead of symlinking it.
 
 ## Development
 
@@ -20,12 +23,10 @@ All images include packages necessary to run all Drupal tests (including Functio
 
 To build a specific image, call:
 
-- `8.0` tag: `make build-php80`
 - `8.1` tag: `make build-php81`
 
 To run built image locally:
 
-- `8.0` tag: `make run-php80`
 - `8.1` tag: `make run-php81`
 
 ### Testing
@@ -34,7 +35,6 @@ We use [GoogleContainerTools/container-structure-test](https://github.com/Google
 
 Running tests will always rebuild the image first.
 
-- Run tests against `8.0` tag: `make test-php80`
 - Run tests against `8.1` tag: `make test-php81`
 
 ### Release process
