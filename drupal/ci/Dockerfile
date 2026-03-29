@@ -1,5 +1,5 @@
 ARG BASE_IMAGE_TAG
-FROM php:${BASE_IMAGE_TAG} as base
+FROM php:${BASE_IMAGE_TAG} AS base
 
 # Install required tools
 RUN apk add --no-cache \
@@ -58,7 +58,7 @@ RUN set -eux; \
 	)"; \
 	apk add --virtual .drupal-phpexts-rundeps $runDeps; \
 	apk del .build-deps; \
-  rm /usr/local/bin/phpdbg \
+  rm -f /usr/local/bin/phpdbg \
     /usr/local/bin/php-cgi
 
 # We can't remove files from base layer (php container) so we have to copy everything
@@ -98,8 +98,6 @@ ENV SIMPLETEST_BASE_URL=http://127.0.0.1:8888
 ENV SIMPLETEST_DB=mysql://drupal:drupal@db:3306/drupal
 ENV COMPOSER_HOME=/tmp/.composer
 
-# This environment variable is used by drush pm:security command.
-ENV DRUSH_SECURITY_ADVISORIES_URL=https://raw.githubusercontent.com/tuutti/drupal-security-advisories/9.x/composer.json
 # Individual module tests use `composer config repositories N $GITHUB_WORKSPACE && composer require drupal/$MODULE_NAME` to
 # symlink module's codebase from $GITHUB_WORKSPACE to public/modules/contrib folder. PHPUnit seems to report an incorrect
 # test coverage if the test folder is a symlink.
@@ -111,15 +109,5 @@ ENV COMPOSER_MIRROR_PATH_REPOS=1
 # Automatically discard uncommitted changes. This usually happens when attempting to update a package that
 # has any patches applied.
 ENV COMPOSER_DISCARD_CHANGES=true
-
-RUN curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import; \
-  curl -Os https://uploader.codecov.io/latest/alpine/codecov; \
-  curl -Os https://uploader.codecov.io/latest/alpine/codecov.SHA256SUM; \
-  curl -Os https://uploader.codecov.io/latest/alpine/codecov.SHA256SUM.sig; \
-  gpgv codecov.SHA256SUM.sig codecov.SHA256SUM; \
-  sha256sum -c codecov.SHA256SUM; \
-  rm codecov.*; \
-  chmod +x codecov; \
-  mv codecov /usr/bin/;
 
 USER 1001
